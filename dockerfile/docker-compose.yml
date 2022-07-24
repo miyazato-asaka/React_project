@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: node.dockerfile
+    image: sample
+    container_name: sample
+    ports:
+      - "3002:3002"
+    networks:
+      app_net:
+        ipv4_address: 192.168.225.9
+    volumes:
+      - ../app:/home/sample/app
+    tty: true
+  db:
+    image: postgres:14.0-alpine3.14
+    container_name: sample_postgres
+    environment:
+      POSTGRES_USER: ksj
+      POSTGRES_DB: sample
+      POSTGRES_PASSWORD: myroad710
+      PGDATE: /var/lib/postgresql/data
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=ja_JP.UTF-8"
+      TZ: Asia/Tokyo
+    command: postgres -c tcp_keepalives_idle=30 -c tcp_keepalives_interval=10 -c tcp_keepalives_count=2
+    ports:
+      - "5002:5002"
+    networks:
+      app_net:
+        ipv4_address: 192.168.225.10
+    volumes:
+      - posgre_data:/var/lib/postgresql/data
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.225.8/24
+
+volumes:
+  posgre_data: null
