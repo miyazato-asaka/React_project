@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: node.dockerfile
-    image: sample
-    container_name: sample
+    image: strapi
+    container_name: strapi
     ports:
       - "3100:3100"
     networks:
@@ -16,23 +16,24 @@ services:
       - ../app:/home/sample/app
     tty: true
   db:
-    image: postgres:14.0-alpine3.14
-    container_name: sample_postgres
+    image: mysql:8.0.29
+    container_name: strapi
     environment:
-      POSTGRES_USER: strapi
-      POSTGRES_DB: strapi
-      POSTGRES_PASSWORD: strapi
+      MYSQL_USER: strapi
+      MYSQL_DATABASE: strapi
+      MYSQL_PASSWORD: strapi
+      MYSQL_ROOT_PASSWORD: root
       PGDATE: /var/lib/postgresql/data
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=ja_JP.UTF-8"
       TZ: Asia/Tokyo
-    command: postgres -c tcp_keepalives_idle=30 -c tcp_keepalives_interval=10 -c tcp_keepalives_count=2
+    # command: postgres -c tcp_keepalives_idle=30 -c tcp_keepalives_interval=10 -c tcp_keepalives_count=2
     ports:
       - "3406:3406"
     networks:
       app_net:
         ipv4_address: 192.168.227.26
     volumes:
-      - posgre_data:/var/lib/postgresql/data
+      - mysql:/var/lib/mysql
 
 networks:
   app_net:
