@@ -8,10 +8,10 @@ services:
     image: sample
     container_name: sample
     ports:
-      - "3002:3002"
+      - "3100:3100"
     networks:
       app_net:
-        ipv4_address: 192.168.225.9
+        ipv4_address: 192.168.227.25
     volumes:
       - ../app:/home/sample/app
     tty: true
@@ -19,18 +19,18 @@ services:
     image: postgres:14.0-alpine3.14
     container_name: sample_postgres
     environment:
-      POSTGRES_USER: ksj
-      POSTGRES_DB: sample
-      POSTGRES_PASSWORD: myroad710
+      POSTGRES_USER: strapi
+      POSTGRES_DB: strapi
+      POSTGRES_PASSWORD: strapi
       PGDATE: /var/lib/postgresql/data
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=ja_JP.UTF-8"
       TZ: Asia/Tokyo
     command: postgres -c tcp_keepalives_idle=30 -c tcp_keepalives_interval=10 -c tcp_keepalives_count=2
     ports:
-      - "5002:5002"
+      - "3406:3406"
     networks:
       app_net:
-        ipv4_address: 192.168.225.10
+        ipv4_address: 192.168.227.26
     volumes:
       - posgre_data:/var/lib/postgresql/data
 
@@ -40,7 +40,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 192.168.225.8/24
+        - subnet: 192.168.227.24/24
 
 volumes:
   posgre_data: null
