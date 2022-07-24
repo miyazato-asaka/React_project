@@ -13,27 +13,27 @@ services:
       app_net:
         ipv4_address: 192.168.227.25
     volumes:
-      - ../app:/home/sample/app
+      - ../app:/home/strapi/app
     tty: true
   db:
     image: mysql:8.0.29
-    container_name: strapi
+    container_name: strapi_db
     environment:
       MYSQL_USER: strapi
       MYSQL_DATABASE: strapi
       MYSQL_PASSWORD: strapi
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_ROOT_PASSWORD: root
-      PGDATE: /var/lib/postgresql/data
-      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=ja_JP.UTF-8"
+      # PGDATE: /var/lib/mysql/data
       TZ: Asia/Tokyo
-    # command: postgres -c tcp_keepalives_idle=30 -c tcp_keepalives_interval=10 -c tcp_keepalives_count=2
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - "3406:3406"
     networks:
       app_net:
         ipv4_address: 192.168.227.26
     volumes:
-      - strapi-mysql:/var/lib/mysql
+      - ../mysql:/var/lib/mysql
 
 networks:
   app_net:
@@ -42,6 +42,5 @@ networks:
       driver: default
       config:
         - subnet: 192.168.227.24/24
-
-volumes:
-  posgre_data: null
+# volumes:
+#   posgre_data: null
