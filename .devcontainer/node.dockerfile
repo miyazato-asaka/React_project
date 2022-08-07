@@ -20,5 +20,4 @@ RUN sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes
 
 USER ${USER}
 WORKDIR ${HOME}/app
-RUN sudo chown -R ${USER}:${USER} /home/strapi/app
 CMD [ "bash" ]
