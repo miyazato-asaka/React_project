@@ -1,4 +1,4 @@
-FROM node:17.2.0-alpine3.14
+FROM node:18.7.0-alpine3.15
 
 ENV USER strapi
 ENV HOME /home/strapi
