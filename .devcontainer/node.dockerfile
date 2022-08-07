@@ -9,9 +9,9 @@ RUN apk update && apk add --no-cache shadow sudo tzdata \
   && useradd -m ${USER} && usermod -u 1001 ${USER} && groupmod -g 1001 ${USER} \
   && echo "strapi:strapi" | chpasswd && echo "strapi ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
   && echo "Set disable_coredump false" >> /etc/sudo.conf \
-  && echo "root:root" | chpasswd \
-  && sudo chown -R ${USER}:${USER} /home/strapi/app
-  RUN mv /usr/local/lib/node_modules /usr/local/lib/node_modules.tmp \
+  && echo "root:root" | chpasswd
+RUN sudo chown -R ${USER}:${USER} /home/strapi/app
+RUN mv /usr/local/lib/node_modules /usr/local/lib/node_modules.tmp \
   && mv /usr/local/lib/node_modules.tmp /usr/local/lib/node_modules \
   && npm i -g npm@^8.6.0
 #DEV
