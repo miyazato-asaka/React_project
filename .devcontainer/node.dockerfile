@@ -10,7 +10,6 @@ RUN apk update && apk add --no-cache shadow sudo tzdata \
   && echo "strapi:strapi" | chpasswd && echo "strapi ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
   && echo "Set disable_coredump false" >> /etc/sudo.conf \
   && echo "root:root" | chpasswd
-RUN sudo chown -R ${USER}:${USER} /home/strapi/app
 RUN mv /usr/local/lib/node_modules /usr/local/lib/node_modules.tmp \
   && mv /usr/local/lib/node_modules.tmp /usr/local/lib/node_modules \
   && npm i -g npm@^8.6.0
@@ -21,4 +20,5 @@ RUN sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes
 
 USER ${USER}
 WORKDIR ${HOME}/app
+RUN sudo chown -R ${USER}:${USER} /home/strapi/app
 CMD [ "bash" ]
