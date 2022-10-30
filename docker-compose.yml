@@ -37,6 +37,8 @@ services:
       MYSQL_ROOT_PASSWORD: strapi
       TZ: Asia/Tokyo
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
     networks:
       app_net:
         ipv4_address: 192.168.227.26
