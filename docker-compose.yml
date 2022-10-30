@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  strapi:
+    build:
+      context: .
+      dockerfile: node.dockerfile
+    image: strapi
+    environment:
+      DATABASE_CLIENT: mysql
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      DATABASE_NAME: strapi
+      DATABASE_USERNAME: strapi
+      DATABASE_PASSWORD: strapi
+      DATABASE_SSL: "false"
+    container_name: strapi
+    ports:
+      - "1337:1337"
+    networks:
+      app_net:
+        ipv4_address: 192.168.227.25
+    volumes:
+      - ../app:/home/strapi/app
+    tty: true
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0.29
+    container_name: strapi_db
+    environment:
+      MYSQL_USER: strapi
+      MYSQL_DATABASE: strapi
+      MYSQL_PASSWORD: strapi
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: strapi
+      TZ: Asia/Tokyo
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      app_net:
+        ipv4_address: 192.168.227.26
+    volumes:
+      - ../mysql:/var/lib/mysql
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.227.24/24
+# volumes:
+#   posgre_data: null
